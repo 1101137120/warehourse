@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>2.4G</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <!-- <script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>	  -->
+    <script src="js/socket.io-1.3.5.js"></script>
+    <script src="js/floorplan.js"></script>
+    <script src="js/floorplanstate.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+    <style type="text/css">
+        .btn-circle {
+            padding: 10px 0px 20px;
+            width: 40px;
+            height: 40px;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            border-radius: 50%;
+        }
+
+        .table-hidden tbody {
+            overflow-y: auto;
+            height: 500px;
+            display: block;
+        }
+
+        .table-hidden tr {
+            width: 100%;
+            display: inline-table;
+        }
+
+        .table-hidden thead th {
+            width: 400px;
+        }
+
+        .table-hidden td,
+        .table-hidden th {
+            width: 50px;
+        }
+
+        .table-hidden td,
+        .table-hidden th {
+            width: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- -----JavaScript顯示滑鼠所在座標 START------ -->
+    <script language="JavaScript1.2">
+        /*
+
+// Detect if the browser is IE or not.
+// If it is not IE, we assume that the browser is NS.
+var IE = document.all ? true : false
+
+        // If NS -- that is, !IE -- then set up for mouse capture
+        if (!IE) document.captureEvents(Event.MOUSEMOVE)
+
+        // Set-up to use getMouseXY function onMouseMove
+        document.onmousemove = getMouseXY;
+
+        // Temporary variables to hold mouse x-y pos.s
+        var tempX = 0
+        var tempY = 0
+
+        // Main function to retrieve mouse x-y pos.s
+
+        function getMouseXY(e) {
+            if (IE) { // grab the x-y pos.s if browser is IE
+                tempX = event.clientX + document.body.scrollLeft
+                tempY = event.clientY + document.body.scrollTop
+            } else {  // grab the x-y pos.s if browser is NS
+                tempX = e.pageX
+                tempY = e.pageY
+            }
+            // catch possible negative values in NS4
+            if (tempX < 0) { tempX = 0 }
+            if (tempY < 0) { tempY = 0 }
+            // show the position values in the form named Show
+            // in the text fields named MouseX and MouseY
+            document.Show.MouseX.value = tempX
+            document.Show.MouseY.value = tempY
+            return true
+        }
+
+*/
+    </script>
+
+    <!-- <form name="Show">
+        <p align="center"><input type="text" name="MouseX" value="0" size="4">X <input type="text" name="MouseY" value="0" size="4">Y </p>
+    </form> -->
+    <!-------JavaScript顯示滑鼠所在座標 END-------->
+    <!--<div class="form-inline" role="form" style="position: absolute;
+    left: 40px;
+    top: 50px;">
+	<div class ="form-group">
+	
+			<input class="form-control" id="searchname" type="text">
+	</div>
+				<button id="buttonsearch" class=" btn btn-info" type="button">搜尋</button>
+				<button id="aaaaa" class=" btn btn-info" type="button">reset</button>
+	</div>-->
+
+<div id="latesetTime" class="latesetTime">
+		
+        </div>
+    <div class="col">
+		
+		
+		
+        <div class="form-inline search" role="form">
+            <div class="form-group" style=" width: 50%;">
+
+                <input style="width: 100%;" class="form-control" id="searchname" type="text">
+            </div>
+            <button id="buttonsearch" class=" btn btn-info" type="button">搜尋</button>
+            <button id="aaaaa" class=" btn btn-info" type="button">reset</button>
+            <!--<div style="z-index:1;"id="s" class="col-xs-6"><button type="button" class="btn btn-info btn-circle" name="BBT" id="5">test22</button></div>-->
+        </div>
+
+        <div id="app">
+            <div id="boss" class="boss">
+                <div style="z-index: 0;">總經理室</div>
+            </div>
+            <div id="ihoin" class="ihoin">
+                <div>ihoin</div>
+                <div id="ihoindata"></div>
+            </div>
+            <div id="Admin" class="administrative">
+                <div>行政</div>
+                <div id="Admindata"></div>
+            </div>
+            <div id="education" class="education">
+                <div>教育</div>
+                <div id="educationdata"></div>
+            </div>
+            <div id="foundation" class="foundation">
+                <div>基金會</div>
+                <div id="foundationdata"></div>
+            </div>
+            <div id="elevator1" class="elevator1">
+                <div>電梯</div>
+                <div id="elevator1data"></div>
+            </div>
+            <div id="airCondition" class="airCondition">
+                <div>Air Condition</div>
+                <div id="airConditiondata"></div>
+            </div>
+            <div id="elevator2" class="elevator2">
+                <div>電梯</div>
+                <div id="elevator2data"></div>
+            </div>
+            <div id="toilet" class="toilet">
+                <div>廁所</div>
+                <div id="toiletdata"></div>
+            </div>
+            <div id="electromechanical" class="electromechanical">
+                <div>研發中心</div>
+                <div id="electromechanicaldata"></div>
+            </div>
+            <div id="Engineering" class="engineering">
+                <div>工程部</div>
+                <div id="Engineeringdata"></div>
+            </div>
+            <div id="Restaurant" class="restaurant">
+                <div>餐廳</div>
+                <div id="Restaurantdata"></div>
+            </div>
+            <div id="Test" class="test">
+                <div>測試</div>
+                <div id="Testdata"></div>
+            </div>
+            <div class="meeting">
+			<div id="Showroom" style="text-align: center;height: 60%;">
+				<div style="height: 30%;">展示廳</div>
+				<div id="Showroomdata" style="height: 50%;"></div>
+				</div>
+				<div>
+                <div id="Lmeeting" class="big">
+                    <div style="height: 40%;">大會議室</div>
+                    <div id="Lmeetingdata"></div>
+                </div>
+                <div id="Mmeeting" class="medium">
+                    <div style="height: 40%;">中</div>
+                    <div id="Mmeetingdata"></div>
+                </div>
+                <div id="Smeeting" class="small">
+                    <div style="height: 40%;">小</div>
+                    <div id="Smeetingdata"></div>
+                </div>
+				</div>
+            </div>
+        </div>
+
+        <div class="showMessage">
+            <div role="tabpanel">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presatation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">作業</a></li>
+                    <li role="presatation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">注意</a></li>
+                    <li role="presatation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">沒電</a></li>
+                    <li role="presatation"><a href="#state" aria-controls="messages" role="tab" data-toggle="tab">休假</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="home">
+                        <table class="table table-striped table-rwd-name table-hidden" id="tabletagdelay1h">
+                            <thead>
+                                <tr>
+                                    <!--<th data-field="tag_id">TAG ID</th>-->
+                                    <th data-field="tag_uid">名稱</th>
+                                    <th data-field="last_modified">地點</th>
+                                    <th data-field="last_modified">閒置時間</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane " id="profile">
+                        <table class="table table-striped table-rwd-name table-hidden" id="tabletagdelay3h">
+                            <thead>
+                                <tr>
+                                    <!--<th data-field="tag_id">TAG ID</th>-->
+                                    <th data-field="tag_uid">名稱</th>
+                                    <th data-field="last_modified">地點</th>
+                                    <th data-field="last_modified">閒置時間</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane " id="messages">
+                        <table class="table table-striped table-rwd-name table-hidden" id="tabletagdelay3d">
+                            <thead>
+                                <tr>
+                                    <!--<th data-field="tag_id">TAG ID</th>-->
+                                    <th data-field="tag_uid">名稱</th>
+                                    <th data-field="last_modified">地點</th>
+                                    <th data-field="last_modified">閒置時間</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="state">
+                        <table class="table table-striped table-rwd-name table-hidden" id="tabletagstate">
+                            <thead>
+                                <tr>
+                                    <!--<th data-field="tag_id">TAG ID</th>-->
+                                    <th data-field="tag_uid">名稱</th>
+                                    <th data-field="last_modified">狀態</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--<div>
+	<img src="img/ihoin.jpg" style="    height: 600px;
+    display: block;
+    margin: auto;
+    width: 1000Px;">	
+	<div id="Engineering" style="position: absolute;
+    left: 404px;
+    top: 445px;
+    height: 190px;
+    width: 391Px;"></div><div id="Test" style="position: absolute;
+    left: 797px;
+    top: 445px;
+    height: 190px;
+    width: 140Px;"></div>
+	</div><div id="Restaurant" style="position: absolute;
+    left: 939px;
+    top: 445px;
+    height: 190px;
+    width: 142Px;"></div>
+	<div id="Lmeeting" style="position: absolute;
+    left: 1080px;
+    top: 445px;
+    height: 190px;
+    width: 114Px;"></div>
+	<div id="Mmeeting" style="position: absolute;
+    left: 1197px;
+    top: 445px;
+    height: 190px;
+    width: 102Px;"></div>
+	<div id="Smeeting" style="position: absolute;
+    left: 1297px;
+    top: 445px;
+    height: 190px;
+    width: 95Px;"></div>
+	<div id="Treasury" style="position: absolute;
+    left: 409px;
+    top: 45px;
+    height: 193px;
+    width: 190Px;"></div>
+	<div id="aaa" style="position: absolute;
+    left: 597px;
+    top: 45px;
+    height: 193px;
+    width: 224Px;"></div>
+	<div id="ihoin" style="position: absolute;
+    left: 817px;
+    top: 45px;
+    height: 193px;
+    width: 184Px;"></div>
+	<div id="Admin" style="position: absolute;
+    left: 998px;
+    top: 45px;
+    height: 193px;
+    width: 252Px;"></div>
+	<div id="bbb" style="position: absolute;
+    left: 1251px;
+    top: 45px;
+    height: 193px;
+    width: 145Px;"></div>-->
+    <!--<div  style="position: absolute;
+    left: 1446px;
+    top: 44px;>-->
+
+
+
+
+
+    <!-- Modal -->
+    <div id="myModalsearch" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-rwd-name table-hidden" id="tablesearch">
+                        <thead>
+                            <tr>
+                                <!--<th data-field="tag_id">TAG ID</th>-->
+                                <th data-field="tag_uid">TAG UID</th>
+                                <th data-field="tag_uid">名稱</th>
+                                <th data-field="last_modified">最後更新時間</th>
+                                <th data-field="tag_uid">地點</th>
+                                <th data-field="tag_uid">狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div id="myModalEngineering" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-rwd-name table-hidden" id="tableEngineering">
+                        <thead>
+                            <tr>
+                                <!--<th data-field="tag_id">TAG ID</th>-->
+                                <th data-field="tag_uid">TAG UID</th>
+                                <th data-field="tag_uid">名稱</th>
+                                <th data-field="last_modified">最後更新時間</th>
+                                <th data-field="tag_uid">地點</th>
+                                <th data-field="tag_uid">狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div id="myModalTest" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-rwd-name table-hidden" id="tableTest">
+                        <thead>
+                            <tr>
+                                <!--<th data-field="tag_id">TAG ID</th>-->
+                                <th data-field="tag_uid">TAG UID</th>
+                                <th data-field="tag_uid">名稱</th>
+                                <th data-field="last_modified">最後更新時間</th>
+                                <th data-field="tag_uid">地點</th>
+                                <th data-field="tag_uid">狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div id="myModalRestaurant" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-rwd-name table-hidden" id="tableRestaurant">
+                        <thead>
+                            <tr>
+                                <!--<th data-field="tag_id">TAG ID</th>-->
+                                <th data-field="tag_uid">TAG UID</th>
+                                <th data-field="tag_uid">名稱</th>
+                                <th data-field="last_modified">最後更新時間</th>
+                                <th data-field="tag_uid">地點</th>
+                                <th data-field="tag_uid">狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div id="myModalLmeeting" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Header</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-rwd-name table-hidden" id="tableLmeeting">
+                        <thead>
+                            <tr>
+                                <!--<th data-field="tag_id">TAG ID</th>-->
+                                <th data-field="tag_uid">TAG UID</th>
+                                <th data-field="tag_uid">名稱</th>
+                                <th data-field="last_modified">最後更新時間</th>
+                                <th data-field="tag_uid">地點</th>
+                                <th data-field="tag_uid">狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div id="myModalMmeeting" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-rwd-name table-hidden" id="tableMmeeting">
+                        <thead>
+                            <tr>
+                                <!--<th data-field="tag_id">TAG ID</th>-->
+                                <th data-field="tag_uid">TAG UID</th>
+                                <th data-field="tag_uid">名稱</th>
+                                <th data-field="last_modified">最後更新時間</th>
+                                <th data-field="tag_uid">地點</th>
+                                <th data-field="tag_uid">狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div id="myModalSmeeting" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-rwd-name table-hidden" id="tableSmeeting">
+                        <thead>
+                            <tr>
+                                <!--<th data-field="tag_id">TAG ID</th>-->
+                                <th data-field="tag_uid">TAG UID</th>
+                                <th data-field="tag_uid">名稱</th>
+                                <th data-field="last_modified">最後更新時間</th>
+                                <th data-field="tag_uid">地點</th>
+                                <th data-field="tag_uid">狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="myModalShowroom" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-rwd-name table-hidden" id="tableShowroom">
+                        <thead>
+                            <tr>
+                                <!--<th data-field="tag_id">TAG ID</th>-->
+                                <th data-field="tag_uid">TAG UID</th>
+                                <th data-field="tag_uid">名稱</th>
+                                <th data-field="last_modified">最後更新時間</th>
+                                <th data-field="tag_uid">地點</th>
+                                <th data-field="tag_uid">狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+	
+
+    <!-- Modal -->
+    <div id="myModalTreasury" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-rwd-name table-hidden" id="tableTreasury">
+                        <thead>
+                            <tr>
+                                <!--<th data-field="tag_id">TAG ID</th>-->
+                                <th data-field="tag_uid">TAG UID</th>
+                                <th data-field="tag_uid">名稱</th>
+                                <th data-field="last_modified">最後更新時間</th>
+                                <th data-field="tag_uid">地點</th>
+                                <th data-field="tag_uid">狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div id="myModalaaa" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-rwd-name table-hidden" id="tableaaa">
+                        <thead>
+                            <tr>
+                                <!--<th data-field="tag_id">TAG ID</th>-->
+                                <th data-field="tag_uid">TAG UID</th>
+                                <th data-field="tag_uid">名稱</th>
+                                <th data-field="last_modified">最後更新時間</th>
+                                <th data-field="tag_uid">地點</th>
+                                <th data-field="tag_uid">狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div id="myModalihoin" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-rwd-name table-hidden" id="tableihoin">
+                        <thead>
+                            <tr>
+                                <!--<th data-field="tag_id">TAG ID</th>-->
+                                <th data-field="tag_uid">TAG UID</th>
+                                <th data-field="tag_uid">名稱</th>
+                                <th data-field="last_modified">最後更新時間</th>
+                                <th data-field="tag_uid">地點</th>
+                                <th data-field="tag_uid">狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div id="myModalAdmin" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-rwd-name table-hidden" id="tableAdmin">
+                        <thead>
+                            <tr>
+                                <!--<th data-field="tag_id">TAG ID</th>-->
+                                <th data-field="tag_uid">TAG UID</th>
+                                <th data-field="tag_uid">名稱</th>
+                                <th data-field="last_modified">最後更新時間</th>
+                                <th data-field="tag_uid">地點</th>
+                                <th data-field="tag_uid">狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div id="myModalbbb" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-rwd-name table-hidden" id="tablebbb">
+                        <thead>
+                            <tr>
+                                <!--<th data-field="tag_id">TAG ID</th>-->
+                                <th data-field="tag_uid">TAG UID</th>
+                                <th data-field="tag_uid">名稱</th>
+                                <th data-field="last_modified">最後更新時間</th>
+                                <th data-field="tag_uid">地點</th>
+                                <th data-field="tag_uid">狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+	
+<div id="disconnectdailog" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>連線已逾時</p>
+                </div>
+                <div class="modal-footer">
+					<button id="connectbutton" type="button" class="btn btn-default">重整</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>	
+</body>
+
+</html>

@@ -1,0 +1,166 @@
+var inBoundDetailInstance= require('../models/inbound_detail'); 
+var inBoundOrderInstance= require('../models/inboundorder'); 
+
+// Handle /2.4/v1/tags for GET
+exports.postInBoundDetails = function(req, res,next) {
+	var customErr = new Error();
+	var errorMessages = new Array();
+	customErr.status = 400;
+	//var inBoundDetailInstance = new InBoundDetailInstance();	
+	//var inBoundOrderInstance = new InBoundOrderInstance();		
+	console.log("req.body" + req.body);
+	//var OutBoundDetail =  JSON.parse(req.body.OutBoundDetail);
+	var id = req.body.id;
+	var date = req.body.date;
+	var time = req.body.time;
+	var workerId = req.body.workerId;
+	var detailData = req.body.detailData;
+	var remarks = req.body.remarks;
+	var state = req.body.state;
+	var updateTime = req.body.updateTime;
+	
+	console.log("OOrder" + req.body.id);
+	console.log("OOrder" + req.body.date);
+	console.log("OOrder" + req.body.time);
+	console.log("OOrder" + req.body.workerId);
+	
+	
+	if(!id)
+	{
+		customErr.message = "id is null";
+	}
+	
+	if(!date)
+	{
+		customErr.message = "date is null";
+	}
+	
+	if(!time)
+	{
+		customErr.message = "time is null";
+	}
+	
+	if(customErr.message !== "")
+	{
+		next(customErr);	
+	}
+	else
+	{
+		
+	var detailSQL = "INSERT INTO inbound_detail (product_id,amount,state,isDelete,inboundId,updateTime,remarks) VALUES ";
+	var detailDataSQL = "";
+	for(var i=0;i<detailData.length;i++)
+	{
+		if(detailDataSQL!="")
+			detailDataSQL = detailDataSQL + ",";
+		
+		if(detailData[i].remarks)
+			detailData[i].remarks = "'"+detailData[i].remarks+"'";
+		
+		detailDataSQL  = detailDataSQL + "(" +detailData[i].productID + "," +detailData[i].amount + "," +detailData[i].state + "," +"0" + ",'" +detailData[i].inboundId + "','" +detailData[i].updateTime + "',"+detailData[i].remarks+")";
+	}
+	detailSQL = detailSQL +detailDataSQL+";";
+		//var sql = "INSERT INTO outbound_detail (product_id,amount,state,isDelete,outboundId,updateTime) VALUES (?,?,?,?,?,?);";
+		inBoundDetailInstance.query(detailSQL,function(err, rows, fields) {
+			
+			if(err) 
+			{
+				console.log(JSON.stringify(err));
+				customErr.status = 503;
+				customErr.message = "db query error";		
+				next(customErr);			
+			}
+			else
+			{
+				console.log("ININININssd");
+			var sql = "INSERT INTO inboundorder (id,date,time,workerId,state,isDelete,updateTime) VALUES ("+id+",'"+date+"','"+time+"','"+workerId+"',"+state+",0,'"+updateTime+"');";
+			console.log("ININININ" + sql);
+			inBoundOrderInstance.query(sql,function(err, Orderrows, fields) {
+				console.log("ININININ");
+			if(err) 
+			{
+				console.log(JSON.stringify(err));
+				customErr.status = 503;
+				customErr.message = "db query error";		
+				next(customErr);			
+			}
+			else
+			{
+				
+					if(Orderrows.length!=0){
+
+								var apiOutput = {};
+								apiOutput.status = "success";
+								apiOutput.message = "InBoundOrder Insert";
+								apiOutput.detailresponse = rows;	
+								apiOutput.response = Orderrows;			
+								res.json(apiOutput);	
+
+					}else{
+							var apiOutput = {};
+							apiOutput.status = "fail";
+							apiOutput.message = "detail not Insert";
+							apiOutput.response = rows;			
+							res.json(apiOutput);	
+					
+					}
+						
+			}
+					});	
+			}
+		});
+
+
+
+	}
+};
+
+function getClientIp(req) {
+  var ipAddress;
+  // The request may be forwarded from local web server.
+  var forwardedIpsStr = req.header('x-forwarded-for'); 
+  if (forwardedIpsStr) {
+    // 'x-forwarded-for' header may return multiple IP addresses in
+    // the format: "client IP, proxy 1 IP, proxy 2 IP" so take the
+    // the first one
+    var forwardedIps = forwardedIpsStr.split(',');
+    ipAddress = forwardedIps[0];
+  }
+  if (!ipAddress) {
+    // If request was not forwarded
+    ipAddress = req.connection.remoteAddress;
+  }
+  return ipAddress;
+}; 
+var validation = {
+	isEmailAddress:function(str) {
+	   var pattern =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+	   return pattern.test(str);  // returns a boolean
+	},
+	isNotEmpty:function (str) {
+	   var pattern =/\S+/;
+	   return pattern.test(str);  // returns a boolean
+	},
+	isNumber:function(str) {
+	   var pattern = /^\d+$/;
+	   return pattern.test(str);  // returns a boolean
+	},
+	isSame:function(str1,str2){
+	  return str1 === str2;
+}};   
+
+Date.prototype.Format = function (fmt) { //author: meizz 
+var o = {
+    "M+": this.getMonth() + 1, //月份 
+    "d+": this.getDate(), //日 
+    "h+": this.getHours(), //小时 
+    "m+": this.getMinutes(), //分 
+    "s+": this.getSeconds(), //秒 
+    "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+    "S": this.getMilliseconds() //毫秒 
+};
+if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+for (var k in o)
+if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+return fmt;
+}

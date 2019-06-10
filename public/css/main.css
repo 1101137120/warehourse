@@ -1,0 +1,420 @@
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h4,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 400%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+
+/* HTML5 display-role reset for older browsers */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+body {
+    line-height: 4;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.col {
+    width: 1140px;
+    margin: 0 318px;
+}
+
+#app {
+    width: 100%;
+    height: 800px;
+    border: 4px solid #58944d;
+    /* background-image:url(../img/images.jpg); */
+    color: #fff;
+    position: relative;
+    margin-top: 30px;
+    background-color: black;
+}
+
+.boss {
+    width: 188px;
+    height: 200px;
+    border: 1px solid #589444;
+    margin-left: -8px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    left: 207px;
+}
+
+.ihoin {
+    width: 188px;
+    height: 200px;
+    border: 1px solid #589444;
+    margin-left: -8px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    left: 394px;
+}
+
+.administrative {
+    width: 188px;
+    height: 200px;
+    border: 1px solid #589444;
+    margin-left: -8px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    left: 581px;
+}
+
+.education {
+    width: 185px;
+    height: 200px;
+    border: 1px solid #589444;
+    margin-left: -8px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    left: 768px;
+}
+
+.foundation {
+    width: 200px;
+    height: 392px;
+    border: 1px solid #589444;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    top: 110px;
+}
+
+.elevator1 {
+    width: 150px;
+    height: 200px;
+    border: 1px solid #589444;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    top: 300px;
+    left: 267px;
+}
+
+.elevator2 {
+    width: 150px;
+    height: 200px;
+    border: 1px solid #589444;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    top: 300px;
+    left: 625px;
+}
+
+.airCondition {
+    width: 210px;
+    height: 200px;
+    border: 1px solid #589444;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    top: 300px;
+    left: 416px;
+}
+
+.toilet {
+    width: 90px;
+    height: 200px;
+    border: 1px solid #589444;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    top: 300px;
+    left: 774px;
+}
+
+.electromechanical {
+    width: 190px;
+    height: 392px;
+    border: 1px solid #589444;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    top: 110px;
+    left: 944px;
+}
+
+.engineering {
+    width: 380px;
+    height: 200px;
+    border: 1px solid #589444;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    top: 592px;
+}
+
+.restaurant {
+    width: 190px;
+    height: 200px;
+    border: 1px solid #589444;
+    margin-left: -8px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    top: 592px;
+    left: 387px;
+}
+
+.test {
+    width: 190px;
+    height: 200px;
+    border: 1px solid #589444;
+    margin-left: -8px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    top: 592px;
+    left: 576px;
+}
+
+.meeting {
+    width: 377px;
+    height: 200px;
+    border: 1px solid #589444;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 592px;
+    left: 757px;
+}
+
+.big {
+    width: 180px;
+    height: 100px;
+    border: 1px solid #589444;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    top: 99px;
+    left: -1px;
+}
+
+.medium {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #589444;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    top: 99px;
+    left: 178px;
+}
+
+.small {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #589444;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    position: absolute;
+    top: 99px;
+    left: 277px;
+}
+
+.search {
+    position: absolute;
+    left: 10px;
+    top: 94px;
+    width: 20%;
+}
+
+.showMessage {
+    position: absolute;
+    left: 1460px;
+    top: 94px;
+    width: 20%;
+}
+
+.nav-tabs>li:nth-child(1) a {
+    color: yellow;
+}
+
+.nav-tabs>li:nth-child(2) a {
+    color: red;
+}
+
+.nav-tabs>li:nth-child(3) a {
+    color: green;
+}
+
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:focus,
+.nav-tabs>li.active>a:hover {
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+
+@media(max-width:1300px) {
+    #app {
+        width: 100%;
+        height: 800px;
+        border: 1px solid #589444;
+        background-color: #000;
+        color: #fff;
+        position: relative;
+        margin-top: 30px;
+    }
+    .search {
+        position: absolute;
+        left: 100px;
+        top: 900px;
+        width: 30%;
+    }
+	
+	.latesetTime {
+        position: absolute;
+        left: 100px;
+        top: 900px;
+    }
+	
+    .col {
+        margin: 0 auto;
+    }
+    .showMessage {
+        position: absolute;
+        left: 500px;
+        top: 900px;
+        width: 50%;
+    }
+}
