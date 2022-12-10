@@ -17,7 +17,7 @@
     "ejs": "^2.6.1",
     "email-templates": "^1.2.1",
     "exceljs": "^0.5.1",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "express-session": "^1.16.1",
     "https": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
